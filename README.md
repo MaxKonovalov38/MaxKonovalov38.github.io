@@ -1,2 +1,3 @@
 # MaxKonovalov38.github.io
-My small personal blog
+
+Мой небольшой личный блог
