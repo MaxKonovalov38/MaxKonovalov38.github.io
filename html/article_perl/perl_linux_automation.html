@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Perl scripts for Linux automation - Collection of useful automation scripts">
+
+		<title>Perl Linux Automation | MaxKonovalov38</title>
+
+		<link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="../../favicon/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="../../favicon/favicon-16x16.png">
+		<link rel="manifest" href="../../favicon/site.webmanifest">
+
+		<link rel="stylesheet" href="../../css/reset.css">
+		<link rel="stylesheet" href="../../css/ch_styles.css">
+		<link rel="stylesheet" href="../../css/scripts_styles.css">
+  	</head>
+  	<body>
+  		<header>
+  			<h1>MaxKonovalov38</h1>
+  		</header>
+		<main>
+  			<nav>
+  				<p>Проекты:</p>
+  				<p><a href="../../index.html">Главная</a></p>
+  				<p><a href="../main/rust_main.html">Rust</a></p>
+  				<p><a href="../main/perl_main.html">Perl</a></p>
+  				<p><a href="../main/python_main.html">Python</a></p>
+  				<p>Статьи:</p>
+  				<p><a href="../article_perl/perl_scripts.html">100 Perl Scripts</a></p>
+  				<p><a href="../article_perl/perl_5.40.html">Perl v.5.40</a></p>
+  				<p><a href="../article_perl/perl_linux_automation.html">Perl Linux Automation</a></p>
+  				<p><a href="../article_perl/perl_ai_chatbot.html">Perl AI Chat-bot</a></p>
+  				<p><a href="../article_perl/perl_oop.html">Perl OOP</a></p>
+  				<p><a href="../article_perl/perl_debugging.html">Perl Debug Code</a></p>
+  				<p><a href="../article_perl/perl_pentest.html">Perl Pentest</a></p>
+  			</nav>
+  			<article>
+  				<h2>Perl скрипты для автоматизации в Linux</h2>
+  				<p>Коллекция полезных Perl скриптов для автоматизации задач в Linux. Каждый скрипт сопровождается подробным объяснением и примерами использования.</p>
+
+				<h3>1. Управление системой</h3>
+				<div class="script">
+					<h4>1.1 Мониторинг использования диска</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">File::Find</span>;
+
+<span class="my">my</span> <span class="variable">$threshold</span> = <span class="number">90</span>; <span class="comment"># Процент использования диска</span>
+<span class="my">my</span> <span class="variable">$disk_usage</span> = <span class="function">qx</span>(<span class="string">df -h / | tail -1 | awk '{print \$5}' | sed 's/%//'</span>);
+
+<span class="if">if</span> (<span class="variable">$disk_usage</span> > <span class="variable">$threshold</span>) {
+    <span class="print">print</span> <span class="string">"Внимание! Использование диска: $disk_usage%\n"</span>;
+    <span class="print">print</span> <span class="string">"Начинаем поиск больших файлов...\n"</span>;
+    <span class="function">find</span>({
+        <span class="variable">wanted</span> => <span class="sub">sub</span> {
+            <span class="my">my</span> <span class="variable">$size</span> = -<span class="function">s</span> <span class="variable">$_</span>;
+            <span class="print">print</span> <span class="string">"$File::Find::name: $size байт\n"</span> <span class="if">if</span> <span class="variable">$size</span> > <span class="number">100000000</span>;
+        }
+    }, <span class="string">'/home'</span>);
+}</code></pre>
+					<p>Скрипт мониторит использование диска и находит большие файлы, если использование превышает заданный порог.</p>
+				</div>
+
+				<div class="script">
+					<h4>1.2 Мониторинг процессов</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Proc::ProcessTable</span>;
+
+<span class="my">my</span> <span class="variable">$t</span> = <span class="package">Proc::ProcessTable</span><span class="operator">-></span><span class="function">new</span>;
+<span class="my">my</span> <span class="variable">$threshold</span> = <span class="number">50</span>; <span class="comment"># Процент использования CPU</span>
+
+<span class="for">foreach</span> <span class="my">my</span> <span class="variable">$p</span> (<span class="variable">@</span>{<span class="variable">$t</span><span class="operator">-></span><span class="variable">table</span>}) {
+    <span class="if">if</span> (<span class="variable">$p</span><span class="operator">-></span><span class="variable">pctcpu</span> > <span class="variable">$threshold</span>) {
+        <span class="print">print</span> <span class="string">"Процесс $p->{pid} ($p->{cmndline}) использует $p->{pctcpu}% CPU\n"</span>;
+    }
+}</code></pre>
+					<p>Скрипт отслеживает процессы, использующие более 50% CPU, и выводит информацию о них.</p>
+				</div>
+
+				<h3>2. Управление файлами</h3>
+				<div class="script">
+					<h4>2.1 Автоматическая очистка логов</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">File::Find</span>;
+<span class="use">use</span> <span class="package">POSIX</span> <span class="function">qw</span>(<span class="function">strftime</span>);
+
+<span class="my">my</span> <span class="variable">$log_dir</span> = <span class="string">'/var/log'</span>;
+<span class="my">my</span> <span class="variable">$days_to_keep</span> = <span class="number">30</span>;
+<span class="my">my</span> <span class="variable">$current_time</span> = <span class="function">time</span>;
+
+<span class="function">find</span>({
+    <span class="variable">wanted</span> => <span class="sub">sub</span> {
+        <span class="if">if</span> (-<span class="function">f</span> <span class="variable">$_</span> <span class="operator">and</span> <span class="variable">$_</span> =~ <span class="regex">/\.log$/</span>) {
+            <span class="my">my</span> <span class="variable">$mtime</span> = -<span class="function">M</span> <span class="variable">$_</span>;
+            <span class="if">if</span> (<span class="variable">$mtime</span> > <span class="variable">$days_to_keep</span>) {
+                <span class="print">print</span> <span class="string">"Удаление: $File::Find::name\n"</span>;
+                <span class="function">unlink</span> <span class="variable">$_</span>;
+            }
+        }
+    }
+}, <span class="variable">$log_dir</span>);</code></pre>
+					<p>Скрипт удаляет лог-файлы старше 30 дней в указанной директории.</p>
+				</div>
+
+				<div class="script">
+					<h4>2.2 Резервное копирование файлов</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">File::Copy</span>;
+<span class="use">use</span> <span class="package">POSIX</span> <span class="function">qw</span>(<span class="function">strftime</span>);
+
+<span class="my">my</span> <span class="variable">$source_dir</span> = <span class="string">'/home/user/documents'</span>;
+<span class="my">my</span> <span class="variable">$backup_dir</span> = <span class="string">'/backup'</span>;
+<span class="my">my</span> <span class="variable">$date</span> = <span class="function">strftime</span> <span class="string">"%Y-%m-%d"</span>, <span class="function">localtime</span>;
+<span class="my">my</span> <span class="variable">$backup_path</span> = <span class="string">"$backup_dir/backup_$date"</span>;
+
+<span class="function">mkdir</span> <span class="variable">$backup_path</span> <span class="operator">unless</span> -<span class="function">d</span> <span class="variable">$backup_path</span>;
+
+<span class="function">opendir</span>(<span class="my">my</span> <span class="variable">$dh</span>, <span class="variable">$source_dir</span>) <span class="operator">or</span> <span class="die">die</span> <span class="string">"Не могу открыть директорию: $!"</span>;
+<span class="while">while</span> (<span class="my">my</span> <span class="variable">$file</span> = <span class="function">readdir</span>(<span class="variable">$dh</span>)) {
+    <span class="next">next</span> <span class="if">if</span> <span class="variable">$file</span> =~ <span class="regex">/^\./</span>;
+    <span class="my">my</span> <span class="variable">$source</span> = <span class="string">"$source_dir/$file"</span>;
+    <span class="my">my</span> <span class="variable">$dest</span> = <span class="string">"$backup_path/$file"</span>;
+    <span class="function">copy</span>(<span class="variable">$source</span>, <span class="variable">$dest</span>) <span class="operator">or</span> <span class="print">print</span> <span class="string">"Ошибка копирования $file: $!\n"</span>;
+}
+<span class="function">closedir</span>(<span class="variable">$dh</span>);</code></pre>
+					<p>Скрипт создает резервную копию файлов с датой в имени директории.</p>
+				</div>
+
+				<h3>3. Сетевые задачи</h3>
+				<div class="script">
+					<h4>3.1 Мониторинг сетевых соединений</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Net::Ping</span>;
+
+<span class="my">my</span> <span class="variable">$p</span> = <span class="package">Net::Ping</span><span class="operator">-></span><span class="function">new</span>(<span class="string">"icmp"</span>);
+<span class="my">my</span> <span class="array">@hosts</span> = <span class="function">qw</span>(<span class="string">google.com</span> <span class="string">yandex.ru</span> <span class="string">github.com</span>);
+
+<span class="for">foreach</span> <span class="my">my</span> <span class="variable">$host</span> (<span class="array">@hosts</span>) {
+    <span class="if">if</span> (<span class="variable">$p</span><span class="operator">-></span><span class="function">ping</span>(<span class="variable">$host</span>)) {
+        <span class="print">print</span> <span class="string">"$host доступен\n"</span>;
+    } <span class="else">else</span> {
+        <span class="print">print</span> <span class="string">"$host недоступен\n"</span>;
+    }
+}
+<span class="variable">$p</span><span class="operator">-></span><span class="function">close</span>;</code></pre>
+					<p>Скрипт проверяет доступность указанных хостов через ICMP пинг.</p>
+				</div>
+
+				<div class="script">
+					<h4>3.2 Мониторинг портов</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">IO::Socket::INET</span>;
+
+<span class="my">my</span> <span class="array">@ports</span> = (<span class="number">22</span>, <span class="number">80</span>, <span class="number">443</span>);
+<span class="my">my</span> <span class="variable">$host</span> = <span class="string">'localhost'</span>;
+
+<span class="for">foreach</span> <span class="my">my</span> <span class="variable">$port</span> (<span class="array">@ports</span>) {
+    <span class="my">my</span> <span class="variable">$socket</span> = <span class="package">IO::Socket::INET</span><span class="operator">-></span><span class="function">new</span>(
+        <span class="variable">PeerAddr</span> => <span class="variable">$host</span>,
+        <span class="variable">PeerPort</span> => <span class="variable">$port</span>,
+        <span class="variable">Proto</span> => <span class="string">'tcp'</span>,
+        <span class="variable">Timeout</span> => <span class="number">2</span>
+    );
+    <span class="if">if</span> (<span class="variable">$socket</span>) {
+        <span class="print">print</span> <span class="string">"Порт $port открыт\n"</span>;
+        <span class="function">close</span>(<span class="variable">$socket</span>);
+    } <span class="else">else</span> {
+        <span class="print">print</span> <span class="string">"Порт $port закрыт\n"</span>;
+    }
+}</code></pre>
+					<p>Скрипт проверяет доступность указанных портов на локальной машине.</p>
+				</div>
+
+				<h3>4. Автоматизация системных задач</h3>
+				<div class="script">
+					<h4>4.1 Автоматическое обновление системы</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="my">my</span> <span class="variable">$update_cmd</span> = <span class="string">'apt-get update && apt-get upgrade -y'</span>;
+<span class="my">my</span> <span class="variable">$log_file</span> = <span class="string">'/var/log/system_update.log'</span>;
+
+<span class="function">open</span>(<span class="my">my</span> <span class="variable">$log</span>, <span class="string">'>>'</span>, <span class="variable">$log_file</span>) <span class="operator">or</span> <span class="die">die</span> <span class="string">"Не могу открыть лог-файл: $!"</span>;
+<span class="print">print</span> <span class="variable">$log</span> <span class="string">"Начало обновления: "</span> . <span class="function">scalar</span>(<span class="function">localtime</span>) . <span class="string">"\n"</span>;
+
+<span class="my">my</span> <span class="variable">$output</span> = <span class="function">qx</span>(<span class="variable">$update_cmd</span>);
+<span class="print">print</span> <span class="variable">$log</span> <span class="string">"$output\n"</span>;
+<span class="print">print</span> <span class="variable">$log</span> <span class="string">"Обновление завершено: "</span> . <span class="function">scalar</span>(<span class="function">localtime</span>) . <span class="string">"\n"</span>;
+<span class="function">close</span>(<span class="variable">$log</span>);</code></pre>
+					<p>Скрипт автоматически обновляет систему и записывает результаты в лог-файл.</p>
+				</div>
+
+				<div class="script">
+					<h4>4.2 Мониторинг сервисов</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="my">my</span> <span class="array">@services</span> = <span class="function">qw</span>(<span class="string">apache2</span> <span class="string">mysql</span> <span class="string">nginx</span>);
+
+<span class="for">foreach</span> <span class="my">my</span> <span class="variable">$service</span> (<span class="array">@services</span>) {
+    <span class="my">my</span> <span class="variable">$status</span> = <span class="function">qx</span>(<span class="string">systemctl is-active $service</span>);
+    <span class="function">chomp</span>(<span class="variable">$status</span>);
+    
+    <span class="if">if</span> (<span class="variable">$status</span> <span class="operator">ne</span> <span class="string">"active"</span>) {
+        <span class="print">print</span> <span class="string">"Сервис $service неактивен. Попытка перезапуска...\n"</span>;
+        <span class="function">system</span>(<span class="string">"systemctl restart $service"</span>);
+    } <span class="else">else</span> {
+        <span class="print">print</span> <span class="string">"Сервис $service работает нормально\n"</span>;
+    }
+}</code></pre>
+					<p>Скрипт проверяет статус указанных сервисов и перезапускает их при необходимости.</p>
+				</div>
+
+				<h3>5. Управление пользователями</h3>
+				<div class="script">
+					<h4>5.1 Создание пользователей из CSV</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Text::CSV</span>;
+
+<span class="my">my</span> <span class="variable">$csv</span> = <span class="package">Text::CSV</span><span class="operator">-></span><span class="function">new</span>({ <span class="variable">binary</span> => <span class="number">1</span> });
+<span class="function">open</span>(<span class="my">my</span> <span class="variable">$fh</span>, <span class="string">'<'</span>, <span class="string">'users.csv'</span>) <span class="operator">or</span> <span class="die">die</span> <span class="string">"Не могу открыть файл: $!"</span>;
+
+<span class="while">while</span> (<span class="my">my</span> <span class="variable">$row</span> = <span class="variable">$csv</span><span class="operator">-></span><span class="function">getline</span>(<span class="variable">$fh</span>)) {
+    <span class="my">my</span> (<span class="variable">$username</span>, <span class="variable">$fullname</span>, <span class="variable">$group</span>) = <span class="variable">@$row</span>;
+    <span class="function">system</span>(<span class="string">"useradd -m -c '$fullname' -G $group $username"</span>);
+    <span class="function">system</span>(<span class="string">"echo '$username:password123' | chpasswd"</span>);
+    <span class="print">print</span> <span class="string">"Создан пользователь: $username\n"</span>;
+}
+<span class="function">close</span>(<span class="variable">$fh</span>);</code></pre>
+					<p>Скрипт создает пользователей из CSV-файла с указанными параметрами.</p>
+				</div>
+
+				<div class="script">
+					<h4>5.2 Проверка прав доступа</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">File::Find</span>;
+
+<span class="my">my</span> <span class="variable">$dir</span> = <span class="string">'/home'</span>;
+<span class="my">my</span> <span class="variable">$max_perms</span> = <span class="number">0755</span>;
+
+<span class="function">find</span>({
+    <span class="variable">wanted</span> => <span class="sub">sub</span> {
+        <span class="if">if</span> (-<span class="function">f</span> <span class="variable">$_</span>) {
+            <span class="my">my</span> <span class="variable">$mode</span> = (<span class="function">stat</span>(<span class="variable">$_</span>))[<span class="number">2</span>] & <span class="number">07777</span>;
+            <span class="if">if</span> (<span class="variable">$mode</span> > <span class="variable">$max_perms</span>) {
+                <span class="print">print</span> <span class="string">"Найден файл с небезопасными правами: $File::Find::name\n"</span>;
+                <span class="print">print</span> <span class="string">"Текущие права: $mode\n"</span>;
+                <span class="function">chmod</span> <span class="variable">$max_perms</span>, <span class="variable">$_</span>;
+            }
+        }
+    }
+}, <span class="variable">$dir</span>);</code></pre>
+					<p>Скрипт проверяет права доступа к файлам и исправляет небезопасные настройки.</p>
+				</div>
+
+				<h3>Заключение</h3>
+				<p>Эти скрипты демонстрируют возможности Perl для автоматизации задач в Linux. Они могут быть использованы как основа для создания более сложных систем автоматизации. При использовании скриптов важно:</p>
+				<ul>
+					<li>Проверять права доступа перед выполнением</li>
+					<li>Тестировать скрипты в безопасном окружении</li>
+					<li>Добавлять обработку ошибок</li>
+					<li>Вести логирование действий</li>
+				</ul>
+				<p>Для дальнейшего изучения рекомендуется:</p>
+				<ol>
+					<li>Изучить документацию по используемым модулям</li>
+					<li>Добавить обработку исключений</li>
+					<li>Реализовать отправку уведомлений</li>
+					<li>Создать конфигурационные файлы</li>
+				</ol>
+			</article>
+		</main>
+   		<footer>&copy; Максим Коновалов</footer>
+	</body>
+</html> 

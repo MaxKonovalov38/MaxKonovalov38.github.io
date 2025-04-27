@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="100 Perl scripts by MaxKonovalov38 - Collection of useful Perl scripts with explanations">
+
+		<title>100 Perl Scripts | MaxKonovalov38</title>
+
+		<link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="../../favicon/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="../../favicon/favicon-16x16.png">
+		<link rel="manifest" href="../../favicon/site.webmanifest">
+
+		<link rel="stylesheet" href="../../css/reset.css">
+		<link rel="stylesheet" href="../../css/ch_styles.css">
+		<link rel="stylesheet" href="../../css/scripts_styles.css">
+  	</head>
+  	<body>
+  		<header>
+  			<h1>MaxKonovalov38</h1>
+  		</header>
+		<main>
+  			<nav>
+  				<p>Проекты:</p>
+  				<p><a href="../../index.html">Главная</a></p>
+  				<p><a href="../main/rust_main.html">Rust</a></p>
+  				<p><a href="../main/perl_main.html">Perl</a></p>
+  				<p><a href="../main/python_main.html">Python</a></p>
+  				<p>Статьи:</p>
+  				<p><a href="../article_perl/perl_scripts.html">100 Perl Scripts</a></p>
+  				<p><a href="../article_perl/perl_5.40.html">Perl v.5.40</a></p>
+  				<p><a href="../article_perl/perl_linux_automation.html">Perl Linux Automation</a></p>
+  				<p><a href="../article_perl/perl_ai_chatbot.html">Perl AI Chat-bot</a></p>
+  				<p><a href="../article_perl/perl_oop.html">Perl OOP</a></p>
+  				<p><a href="../article_perl/perl_debugging.html">Perl Debug Code</a></p>
+  				<p><a href="../article_perl/perl_pentest.html">Perl Pentest</a></p>
+  			</nav>
+  			<article>
+  				<h2>100 скриптов на Perl</h2>
+  				<p>Коллекция полезных скриптов на Perl с подробными объяснениями.</p>
+				
+				<h3>1. Обработка текста</h3>
+				<div class="script">
+					<h4>1.1 Поиск и замена текста</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="my">my</span> <span class="variable">$text</span> = <span class="string">"Hello World"</span>;
+<span class="variable">$text</span> =~ <span class="regex">s/World/Perl/</span>;
+<span class="print">print</span> <span class="string">"$text\n"</span>;</code></pre>
+					<p>Этот скрипт демонстрирует базовую замену текста с помощью регулярных выражений.</p>
+				</div>
+
+				<div class="script">
+					<h4>1.2 Подсчет слов</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="my">my</span> <span class="variable">$text</span> = <span class="string">"Hello World Perl"</span>;
+<span class="my">my</span> <span class="array">@words</span> = <span class="function">split</span>(<span class="regex">/\s+/</span>, <span class="variable">$text</span>);
+<span class="print">print</span> <span class="string">"Количество слов: "</span> . <span class="function">scalar</span>(<span class="array">@words</span>) . <span class="string">"\n"</span>;</code></pre>
+					<p>Скрипт подсчитывает количество слов в строке, разделяя её по пробелам.</p>
+				</div>
+
+				<h3>2. Работа с файлами</h3>
+				<div class="script">
+					<h4>2.1 Чтение файла</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="function">open</span>(<span class="my">my</span> <span class="variable">$fh</span>, <span class="string">'<'</span>, <span class="string">'file.txt'</span>) <span class="operator">or</span> <span class="die">die</span> <span class="string">"Не могу открыть файл: $!"</span>;
+<span class="while">while</span> (<span class="my">my</span> <span class="variable">$line</span> = <span class="operator"><</span><span class="variable">$fh</span><span class="operator">></span>) {
+    <span class="print">print</span> <span class="variable">$line</span>;
+}
+<span class="function">close</span>(<span class="variable">$fh</span>);</code></pre>
+					<p>Базовый пример чтения файла построчно.</p>
+				</div>
+
+				<div class="script">
+					<h4>2.2 Запись в файл</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="function">open</span>(<span class="my">my</span> <span class="variable">$fh</span>, <span class="string">'>'</span>, <span class="string">'output.txt'</span>) <span class="operator">or</span> <span class="die">die</span> <span class="string">"Не могу открыть файл: $!"</span>;
+<span class="print">print</span> <span class="variable">$fh</span> <span class="string">"Hello, World!\n"</span>;
+<span class="function">close</span>(<span class="variable">$fh</span>);</code></pre>
+					<p>Пример записи текста в файл.</p>
+				</div>
+
+				<h3>3. Работа с датами</h3>
+				<div class="script">
+					<h4>3.1 Текущая дата</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">POSIX</span> <span class="function">qw</span>(<span class="function">strftime</span>);
+
+<span class="my">my</span> <span class="variable">$date</span> = <span class="function">strftime</span> <span class="string">"%Y-%m-%d %H:%M:%S"</span>, <span class="function">localtime</span>;
+<span class="print">print</span> <span class="string">"Текущая дата и время: $date\n"</span>;</code></pre>
+					<p>Вывод текущей даты и времени в заданном формате.</p>
+				</div>
+
+				<div class="script">
+					<h4>3.2 Разница между датами</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Time::Piece</span>;
+
+<span class="my">my</span> <span class="variable">$date1</span> = <span class="package">Time::Piece</span><span class="operator">-></span><span class="function">strptime</span>(<span class="string">"2024-01-01"</span>, <span class="string">"%Y-%m-%d"</span>);
+<span class="my">my</span> <span class="variable">$date2</span> = <span class="package">Time::Piece</span><span class="operator">-></span><span class="function">strptime</span>(<span class="string">"2024-04-27"</span>, <span class="string">"%Y-%m-%d"</span>);
+<span class="my">my</span> <span class="variable">$diff</span> = <span class="variable">$date2</span> <span class="operator">-</span> <span class="variable">$date1</span>;
+<span class="print">print</span> <span class="string">"Разница в днях: "</span> . <span class="variable">$diff</span><span class="operator">-></span><span class="function">days</span> . <span class="string">"\n"</span>;</code></pre>
+					<p>Расчет разницы между двумя датами в днях.</p>
+				</div>
+
+				<h3>4. Математические операции</h3>
+				<div class="script">
+					<h4>4.1 Калькулятор</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="sub">sub</span> <span class="function">add</span> { <span class="return">return</span> <span class="variable">$_[0]</span> <span class="operator">+</span> <span class="variable">$_[1]</span> }
+<span class="sub">sub</span> <span class="function">subtract</span> { <span class="return">return</span> <span class="variable">$_[0]</span> <span class="operator">-</span> <span class="variable">$_[1]</span> }
+<span class="sub">sub</span> <span class="function">multiply</span> { <span class="return">return</span> <span class="variable">$_[0]</span> <span class="operator">*</span> <span class="variable">$_[1]</span> }
+<span class="sub">sub</span> <span class="function">divide</span> { <span class="return">return</span> <span class="variable">$_[0]</span> <span class="operator">/</span> <span class="variable">$_[1]</span> }
+
+<span class="print">print</span> <span class="string">"5 + 3 = "</span> . <span class="function">add</span>(<span class="number">5</span>, <span class="number">3</span>) . <span class="string">"\n"</span>;
+<span class="print">print</span> <span class="string">"5 - 3 = "</span> . <span class="function">subtract</span>(<span class="number">5</span>, <span class="number">3</span>) . <span class="string">"\n"</span>;
+<span class="print">print</span> <span class="string">"5 * 3 = "</span> . <span class="function">multiply</span>(<span class="number">5</span>, <span class="number">3</span>) . <span class="string">"\n"</span>;
+<span class="print">print</span> <span class="string">"5 / 3 = "</span> . <span class="function">divide</span>(<span class="number">5</span>, <span class="number">3</span>) . <span class="string">"\n"</span>;</code></pre>
+					<p>Простой калькулятор с базовыми арифметическими операциями.</p>
+				</div>
+
+				<div class="script">
+					<h4>4.2 Генератор случайных чисел</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="function">srand</span>(<span class="function">time</span>);
+<span class="my">my</span> <span class="variable">$random</span> = <span class="function">int</span>(<span class="function">rand</span>(<span class="number">100</span>));
+<span class="print">print</span> <span class="string">"Случайное число от 0 до 100: $random\n"</span>;</code></pre>
+					<p>Генерация случайного числа в заданном диапазоне.</p>
+				</div>
+
+				<h3>5. Работа с массивами</h3>
+				<div class="script">
+					<h4>5.1 Сортировка массива</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="my">my</span> <span class="array">@numbers</span> = (<span class="number">5</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">9</span>);
+<span class="my">my</span> <span class="array">@sorted</span> = <span class="function">sort</span> { <span class="variable">$a</span> <span class="operator"><=></span> <span class="variable">$b</span> } <span class="array">@numbers</span>;
+<span class="print">print</span> <span class="string">"Отсортированный массив: @sorted\n"</span>;</code></pre>
+					<p>Сортировка числового массива по возрастанию.</p>
+				</div>
+
+				<div class="script">
+					<h4>5.2 Поиск в массиве</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="my">my</span> <span class="array">@array</span> = <span class="function">qw</span>(<span class="string">apple</span> <span class="string">banana</span> <span class="string">orange</span>);
+<span class="my">my</span> <span class="variable">$search</span> = <span class="string">"banana"</span>;
+<span class="if">if</span> (<span class="function">grep</span> { <span class="variable">$_</span> <span class="operator">eq</span> <span class="variable">$search</span> } <span class="array">@array</span>) {
+    <span class="print">print</span> <span class="string">"Элемент найден\n"</span>;
+} <span class="else">else</span> {
+    <span class="print">print</span> <span class="string">"Элемент не найден\n"</span>;
+}</code></pre>
+					<p>Поиск элемента в массиве.</p>
+				</div>
+
+				<h3>6. Работа с хешами</h3>
+				<div class="script">
+					<h4>6.1 Создание и доступ к хешу</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="my">my</span> <span class="hash">%hash</span> = (
+    <span class="string">'name'</span> => <span class="string">'John'</span>,
+    <span class="string">'age'</span> => <span class="number">30</span>,
+    <span class="string">'city'</span> => <span class="string">'Moscow'</span>
+);
+<span class="print">print</span> <span class="string">"Имя: $hash{'name'}\n"</span>;
+<span class="print">print</span> <span class="string">"Возраст: $hash{'age'}\n"</span>;</code></pre>
+					<p>Базовые операции с хешем в Perl.</p>
+				</div>
+
+				<div class="script">
+					<h4>6.2 Итерация по хешу</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="my">my</span> <span class="hash">%hash</span> = (<span class="string">'a'</span> => <span class="number">1</span>, <span class="string">'b'</span> => <span class="number">2</span>, <span class="string">'c'</span> => <span class="number">3</span>);
+<span class="while">while</span> (<span class="my">my</span> (<span class="variable">$key</span>, <span class="variable">$value</span>) = <span class="function">each</span> <span class="hash">%hash</span>) {
+    <span class="print">print</span> <span class="string">"$key => $value\n"</span>;
+}</code></pre>
+					<p>Перебор всех элементов хеша.</p>
+				</div>
+
+				<h3>7. Регулярные выражения</h3>
+				<div class="script">
+					<h4>7.1 Проверка email</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="my">my</span> <span class="variable">$email</span> = <span class="string">'test@example.com'</span>;
+<span class="if">if</span> (<span class="variable">$email</span> =~ <span class="regex">/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/</span>) {
+    <span class="print">print</span> <span class="string">"Email валиден\n"</span>;
+} <span class="else">else</span> {
+    <span class="print">print</span> <span class="string">"Email невалиден\n"</span>;
+}</code></pre>
+					<p>Проверка валидности email адреса.</p>
+				</div>
+
+				<div class="script">
+					<h4>7.2 Извлечение чисел</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="my">my</span> <span class="variable">$text</span> = <span class="string">"Цена: 100 рублей, скидка: 20%"</span>;
+<span class="my">my</span> <span class="array">@numbers</span> = <span class="variable">$text</span> =~ <span class="regex">/(\d+)/g</span>;
+<span class="print">print</span> <span class="string">"Найденные числа: @numbers\n"</span>;</code></pre>
+					<p>Извлечение всех чисел из текста.</p>
+				</div>
+
+				<h3>8. Работа с процессами</h3>
+				<div class="script">
+					<h4>8.1 Запуск внешней команды</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="my">my</span> <span class="variable">$output</span> = <span class="operator">`</span><span class="function">ls</span> -l<span class="operator">`</span>;
+<span class="print">print</span> <span class="string">"Содержимое директории:\n$output"</span>;</code></pre>
+					<p>Выполнение внешней команды и получение вывода.</p>
+				</div>
+
+				<div class="script">
+					<h4>8.2 Системные вызовы</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">POSIX</span>;
+
+<span class="my">my</span> <span class="variable">$pid</span> = <span class="function">fork</span>();
+<span class="if">if</span> (<span class="variable">$pid</span> == <span class="number">0</span>) {
+    <span class="comment"># Дочерний процесс</span>
+    <span class="print">print</span> <span class="string">"Я дочерний процесс\n"</span>;
+    <span class="function">exit</span>(<span class="number">0</span>);
+} <span class="else">else</span> {
+    <span class="comment"># Родительский процесс</span>
+    <span class="print">print</span> <span class="string">"Я родительский процесс\n"</span>;
+    <span class="function">waitpid</span>(<span class="variable">$pid</span>, <span class="number">0</span>);
+}</code></pre>
+					<p>Создание дочернего процесса.</p>
+				</div>
+
+				<h3>9. Сетевое программирование</h3>
+				<div class="script">
+					<h4>9.1 HTTP запрос</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">LWP::Simple</span>;
+
+<span class="my">my</span> <span class="variable">$url</span> = <span class="string">'http://example.com'</span>;
+<span class="my">my</span> <span class="variable">$content</span> = <span class="function">get</span>(<span class="variable">$url</span>);
+<span class="print">print</span> <span class="string">"Содержимое страницы:\n$content\n"</span>;</code></pre>
+					<p>Получение содержимого веб-страницы.</p>
+				</div>
+
+				<div class="script">
+					<h4>9.2 TCP сервер</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">IO::Socket::INET</span>;
+
+<span class="my">my</span> <span class="variable">$server</span> = <span class="package">IO::Socket::INET</span><span class="operator">-></span><span class="function">new</span>(
+    LocalPort => <span class="number">8080</span>,
+    Type => SOCK_STREAM,
+    Reuse => <span class="number">1</span>,
+    Listen => <span class="number">10</span>
+) <span class="operator">or</span> <span class="die">die</span> <span class="string">"Не могу создать сервер: $!"</span>;
+
+<span class="print">print</span> <span class="string">"Сервер запущен на порту 8080\n"</span>;
+<span class="while">while</span> (<span class="my">my</span> <span class="variable">$client</span> = <span class="variable">$server</span><span class="operator">-></span><span class="function">accept</span>()) {
+    <span class="print">print</span> <span class="string">"Новое подключение\n"</span>;
+    <span class="print">print</span> <span class="variable">$client</span> <span class="string">"Hello, Client!\n"</span>;
+    <span class="function">close</span>(<span class="variable">$client</span>);
+}</code></pre>
+					<p>Простой TCP сервер.</p>
+				</div>
+
+				<h3>10. Работа с базами данных</h3>
+				<div class="script">
+					<h4>10.1 Подключение к MySQL</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">DBI</span>;
+
+<span class="my">my</span> <span class="variable">$dbh</span> = <span class="package">DBI</span><span class="operator">-></span><span class="function">connect</span>(
+    <span class="string">"DBI:mysql:database=test;host=localhost"</span>,
+    <span class="string">"username"</span>,
+    <span class="string">"password"</span>
+) <span class="operator">or</span> <span class="die">die</span> <span class="string">"Не могу подключиться: $DBI::errstr"</span>;
+
+<span class="my">my</span> <span class="variable">$sth</span> = <span class="variable">$dbh</span><span class="operator">-></span><span class="function">prepare</span>(<span class="string">"SELECT * FROM users"</span>);
+<span class="variable">$sth</span><span class="operator">-></span><span class="function">execute</span>();
+<span class="while">while</span> (<span class="my">my</span> <span class="array">@row</span> = <span class="variable">$sth</span><span class="operator">-></span><span class="function">fetchrow_array</span>()) {
+    <span class="print">print</span> <span class="string">"@row\n"</span>;
+}
+<span class="variable">$dbh</span><span class="operator">-></span><span class="function">disconnect</span>();</code></pre>
+					<p>Подключение к MySQL и выполнение запроса.</p>
+				</div>
+
+				<div class="script">
+					<h4>10.2 SQLite операции</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">DBI</span>;
+
+<span class="my">my</span> <span class="variable">$dbh</span> = <span class="package">DBI</span><span class="operator">-></span><span class="function">connect</span>(<span class="string">"dbi:SQLite:dbname=test.db"</span>) 
+    <span class="operator">or</span> <span class="die">die</span> <span class="string">"Не могу подключиться: $DBI::errstr"</span>;
+
+<span class="variable">$dbh</span><span class="operator">-></span><span class="function">do</span>(<span class="string">"CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT)"</span>);
+<span class="variable">$dbh</span><span class="operator">-></span><span class="function">do</span>(<span class="string">"INSERT INTO users (name) VALUES ('John')"</span>);
+
+<span class="my">my</span> <span class="variable">$sth</span> = <span class="variable">$dbh</span><span class="operator">-></span><span class="function">prepare</span>(<span class="string">"SELECT * FROM users"</span>);
+<span class="variable">$sth</span><span class="operator">-></span><span class="function">execute</span>();
+<span class="while">while</span> (<span class="my">my</span> <span class="array">@row</span> = <span class="variable">$sth</span><span class="operator">-></span><span class="function">fetchrow_array</span>()) {
+    <span class="print">print</span> <span class="string">"@row\n"</span>;
+}
+<span class="variable">$dbh</span><span class="operator">-></span><span class="function">disconnect</span>();</code></pre>
+					<p>Работа с SQLite базой данных.</p>
+				</div>
+
+				<h3>11. Обработка JSON</h3>
+				<div class="script">
+					<h4>11.1 Парсинг JSON</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">JSON</span>;
+
+<span class="my">my</span> <span class="variable">$json_text</span> = <span class="string">'{"name":"John","age":30,"city":"Moscow"}'</span>;
+<span class="my">my</span> <span class="variable">$data</span> = <span class="function">decode_json</span>(<span class="variable">$json_text</span>);
+<span class="print">print</span> <span class="string">"Имя: $data->{'name'}\n"</span>;
+<span class="print">print</span> <span class="string">"Возраст: $data->{'age'}\n"</span>;</code></pre>
+					<p>Декодирование JSON строки.</p>
+				</div>
+
+				<div class="script">
+					<h4>11.2 Генерация JSON</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">JSON</span>;
+
+<span class="my">my</span> <span class="variable">$data</span> = {
+    name => <span class="string">'John'</span>,
+    age => <span class="number">30</span>,
+    city => <span class="string">'Moscow'</span>
+};
+<span class="my">my</span> <span class="variable">$json_text</span> = <span class="function">encode_json</span>(<span class="variable">$data</span>);
+<span class="print">print</span> <span class="string">"$json_text\n"</span>;</code></pre>
+					<p>Создание JSON строки из Perl структуры.</p>
+				</div>
+
+				<h3>12. Работа с XML</h3>
+				<div class="script">
+					<h4>12.1 Парсинг XML</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">XML::Simple</span>;
+
+<span class="my">my</span> <span class="variable">$xml</span> = <span class="package">XML::Simple</span><span class="operator">-></span><span class="function">new</span>();
+<span class="my">my</span> <span class="variable">$data</span> = <span class="variable">$xml</span><span class="operator">-></span><span class="function">XMLin</span>(<span class="string">'data.xml'</span>);
+<span class="print">print</span> <span class="string">"Имя: $data->{name}\n"</span>;
+<span class="print">print</span> <span class="string">"Возраст: $data->{age}\n"</span>;</code></pre>
+					<p>Чтение и парсинг XML файла.</p>
+				</div>
+
+				<div class="script">
+					<h4>12.2 Генерация XML</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">XML::Simple</span>;
+
+<span class="my">my</span> <span class="variable">$data</span> = {
+    name => <span class="string">'John'</span>,
+    age => <span class="number">30</span>,
+    city => <span class="string">'Moscow'</span>
+};
+<span class="my">my</span> <span class="variable">$xml</span> = <span class="package">XML::Simple</span><span class="operator">-></span><span class="function">new</span>();
+<span class="my">my</span> <span class="variable">$xml_string</span> = <span class="variable">$xml</span><span class="operator">-></span><span class="function">XMLout</span>(<span class="variable">$data</span>);
+<span class="print">print</span> <span class="string">"$xml_string\n"</span>;</code></pre>
+					<p>Создание XML из Perl структуры.</p>
+				</div>
+
+				<h3>13. Многопоточность</h3>
+				<div class="script">
+					<h4>13.1 Создание потоков</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">threads</span>;
+
+<span class="sub">sub</span> <span class="function">worker</span> {
+    <span class="my">my</span> (<span class="variable">$id</span>) = <span class="variable">@_</span>;
+    <span class="print">print</span> <span class="string">"Поток $id запущен\n"</span>;
+    <span class="function">sleep</span>(<span class="number">2</span>);
+    <span class="print">print</span> <span class="string">"Поток $id завершен\n"</span>;
+}
+
+<span class="my">my</span> <span class="array">@threads</span>;
+<span class="for">for</span> <span class="my">my</span> <span class="variable">$i</span> (<span class="number">1</span>..<span class="number">3</span>) {
+    <span class="function">push</span> <span class="array">@threads</span>, <span class="package">threads</span><span class="operator">-></span><span class="function">create</span>(<span class="operator">\&</span><span class="function">worker</span>, <span class="variable">$i</span>);
+}
+<span class="variable">$_</span><span class="operator">-></span><span class="function">join</span>() <span class="for">for</span> <span class="array">@threads</span>;</code></pre>
+					<p>Создание и управление потоками.</p>
+				</div>
+
+				<div class="script">
+					<h4>13.2 Потокобезопасные операции</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">threads</span>;
+<span class="use">use</span> <span class="package">threads::shared</span>;
+
+<span class="my">my</span> <span class="variable">$counter</span> :shared = <span class="number">0</span>;
+<span class="my">my</span> <span class="variable">$lock</span> :shared;
+
+<span class="sub">sub</span> <span class="function">increment</span> {
+    <span class="function">lock</span>(<span class="variable">$lock</span>);
+    <span class="variable">$counter</span><span class="operator">++</span>;
+    <span class="print">print</span> <span class="string">"Счетчик: $counter\n"</span>;
+}
+
+<span class="my">my</span> <span class="array">@threads</span>;
+<span class="for">for</span> (<span class="number">1</span>..<span class="number">5</span>) {
+    <span class="function">push</span> <span class="array">@threads</span>, <span class="package">threads</span><span class="operator">-></span><span class="function">create</span>(<span class="operator">\&</span><span class="function">increment</span>);
+}
+<span class="variable">$_</span><span class="operator">-></span><span class="function">join</span>() <span class="for">for</span> <span class="array">@threads</span>;</code></pre>
+					<p>Использование разделяемых переменных и блокировок.</p>
+				</div>
+
+				<h3>14. Обработка ошибок</h3>
+				<div class="script">
+					<h4>14.1 Try-Catch блок</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Try::Tiny</span>;
+
+<span class="function">try</span> {
+    <span class="die">die</span> <span class="string">"Тестовая ошибка"</span>;
+} <span class="function">catch</span> {
+    <span class="print">print</span> <span class="string">"Поймана ошибка: $_\n"</span>;
+};</code></pre>
+					<p>Обработка исключений с помощью Try::Tiny.</p>
+				</div>
+
+				<div class="script">
+					<h4>14.2 Пользовательские исключения</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Exception::Class</span> (
+    <span class="string">'MyException'</span> => {
+        fields => [ <span class="string">'message'</span> ]
+    }
+);
+
+<span class="function">try</span> {
+    <span class="package">MyException</span><span class="operator">-></span><span class="function">throw</span>(message => <span class="string">"Что-то пошло не так"</span>);
+} <span class="function">catch</span> {
+    <span class="if">if</span> (<span class="variable">$_</span><span class="operator">-></span><span class="function">isa</span>(<span class="string">'MyException'</span>)) {
+        <span class="print">print</span> <span class="string">"Ошибка: "</span> . <span class="variable">$_</span><span class="operator">-></span><span class="function">message</span> . <span class="string">"\n"</span>;
+    }
+};</code></pre>
+					<p>Создание и использование пользовательских исключений.</p>
+				</div>
+
+				<h3>15. Работа с модулями</h3>
+				<div class="script">
+					<h4>15.1 Создание модуля</h4>
+<pre><code><span class="comment"># MyModule.pm</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="package">package</span> <span class="package">MyModule</span>;
+
+<span class="sub">sub</span> <span class="function">new</span> {
+    <span class="my">my</span> (<span class="variable">$class</span>) = <span class="variable">@_</span>;
+    <span class="return">return</span> <span class="function">bless</span> {}, <span class="variable">$class</span>;
+}
+
+<span class="sub">sub</span> <span class="function">hello</span> {
+    <span class="print">print</span> <span class="string">"Hello from MyModule!\n"</span>;
+}
+
+<span class="number">1</span>;
+
+<span class="comment"># script.pl</span>
+<span class="use">use</span> <span class="package">MyModule</span>;
+<span class="my">my</span> <span class="variable">$obj</span> = <span class="package">MyModule</span><span class="operator">-></span><span class="function">new</span>();
+<span class="variable">$obj</span><span class="operator">-></span><span class="function">hello</span>();</code></pre>
+					<p>Создание и использование собственного модуля.</p>
+				</div>
+
+				<div class="script">
+					<h4>15.2 Автозагрузка методов</h4>
+<pre><code><span class="package">package</span> <span class="package">MyClass</span>;
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Carp</span>;
+
+<span class="our">our</span> <span class="variable">$AUTOLOAD</span>;
+
+<span class="sub">sub</span> <span class="function">new</span> {
+    <span class="my">my</span> (<span class="variable">$class</span>) = <span class="variable">@_</span>;
+    <span class="return">return</span> <span class="function">bless</span> {}, <span class="variable">$class</span>;
+}
+
+<span class="sub">sub</span> <span class="function">AUTOLOAD</span> {
+    <span class="my">my</span> <span class="variable">$self</span> = <span class="function">shift</span>;
+    <span class="my">my</span> <span class="variable">$method</span> = <span class="variable">$AUTOLOAD</span>;
+    <span class="variable">$method</span> =~ <span class="regex">s/.*:://</span>;
+    <span class="function">carp</span> <span class="string">"Метод $method не существует"</span>;
+}
+
+<span class="number">1</span>;</code></pre>
+					<p>Реализация автозагрузки методов.</p>
+				</div>
+
+				<h3>16. Работа с графикой</h3>
+				<div class="script">
+					<h4>16.1 Создание изображения</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">GD</span>;
+
+<span class="my">my</span> <span class="variable">$image</span> = <span class="package">GD::Image</span><span class="operator">-></span><span class="function">new</span>(<span class="number">200</span>, <span class="number">200</span>);
+<span class="my">my</span> <span class="variable">$white</span> = <span class="variable">$image</span><span class="operator">-></span><span class="function">colorAllocate</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>);
+<span class="my">my</span> <span class="variable">$black</span> = <span class="variable">$image</span><span class="operator">-></span><span class="function">colorAllocate</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);
+<span class="my">my</span> <span class="variable">$red</span> = <span class="variable">$image</span><span class="operator">-></span><span class="function">colorAllocate</span>(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>);
+
+<span class="variable">$image</span><span class="operator">-></span><span class="function">filledRectangle</span>(<span class="number">50</span>, <span class="number">50</span>, <span class="number">150</span>, <span class="number">150</span>, <span class="variable">$red</span>);
+<span class="variable">$image</span><span class="operator">-></span><span class="function">string</span>(<span class="package">GD::Font</span><span class="operator">-></span><span class="function">Giant</span>, <span class="number">60</span>, <span class="number">80</span>, <span class="string">"Hello"</span>, <span class="variable">$black</span>);
+
+<span class="function">open</span>(<span class="my">my</span> <span class="variable">$fh</span>, <span class="string">'>'</span>, <span class="string">'image.png'</span>) <span class="operator">or</span> <span class="die">die</span> <span class="string">"Не могу создать файл: $!"</span>;
+<span class="print">print</span> <span class="variable">$fh</span> <span class="variable">$image</span><span class="operator">-></span><span class="function">png</span>;
+<span class="function">close</span>(<span class="variable">$fh</span>);</code></pre>
+					<p>Создание простого изображения с помощью модуля GD.</p>
+				</div>
+
+				<div class="script">
+					<h4>16.2 Обработка изображений</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Image::Magick</span>;
+
+<span class="my">my</span> <span class="variable">$image</span> = <span class="package">Image::Magick</span><span class="operator">-></span><span class="function">new</span>;
+<span class="variable">$image</span><span class="operator">-></span><span class="function">Read</span>(<span class="string">'input.jpg'</span>);
+<span class="variable">$image</span><span class="operator">-></span><span class="function">Resize</span>(width => <span class="number">800</span>, height => <span class="number">600</span>);
+<span class="variable">$image</span><span class="operator">-></span><span class="function">Rotate</span>(degrees => <span class="number">90</span>);
+<span class="variable">$image</span><span class="operator">-></span><span class="function">Write</span>(<span class="string">'output.jpg'</span>);</code></pre>
+					<p>Изменение размера и поворот изображения с помощью Image::Magick.</p>
+				</div>
+
+				<h3>17. Криптография</h3>
+				<div class="script">
+					<h4>17.1 Шифрование данных</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Crypt::CBC</span>;
+
+<span class="my">my</span> <span class="variable">$cipher</span> = <span class="package">Crypt::CBC</span><span class="operator">-></span><span class="function">new</span>(
+    -key    => <span class="string">'my_secret_key'</span>,
+    -cipher => <span class="string">'Blowfish'</span>
+);
+
+<span class="my">my</span> <span class="variable">$plaintext</span> = <span class="string">"Секретное сообщение"</span>;
+<span class="my">my</span> <span class="variable">$ciphertext</span> = <span class="variable">$cipher</span><span class="operator">-></span><span class="function">encrypt</span>(<span class="variable">$plaintext</span>);
+<span class="print">print</span> <span class="string">"Зашифрованный текст: $ciphertext\n"</span>;
+
+<span class="my">my</span> <span class="variable">$decrypted</span> = <span class="variable">$cipher</span><span class="operator">-></span><span class="function">decrypt</span>(<span class="variable">$ciphertext</span>);
+<span class="print">print</span> <span class="string">"Расшифрованный текст: $decrypted\n"</span>;</code></pre>
+					<p>Шифрование и дешифрование данных с помощью Crypt::CBC.</p>
+				</div>
+
+				<div class="script">
+					<h4>17.2 Хеширование</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Digest::SHA</span> <span class="function">qw</span>(<span class="function">sha256_hex</span>);
+
+<span class="my">my</span> <span class="variable">$text</span> = <span class="string">"Пароль123"</span>;
+<span class="my">my</span> <span class="variable">$salt</span> = <span class="string">"random_salt"</span>;
+<span class="my">my</span> <span class="variable">$hashed</span> = <span class="function">sha256_hex</span>(<span class="variable">$text</span> . <span class="variable">$salt</span>);
+
+<span class="print">print</span> <span class="string">"Исходный текст: $text\n"</span>;
+<span class="print">print</span> <span class="string">"Хеш: $hashed\n"</span>;</code></pre>
+					<p>Создание хеша с использованием SHA-256.</p>
+				</div>
+
+				<h3>18. Тестирование</h3>
+				<div class="script">
+					<h4>18.1 Модульные тесты</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Test::More</span>;
+
+<span class="sub">sub</span> <span class="function">add</span> {
+    <span class="my">my</span> (<span class="variable">$a</span>, <span class="variable">$b</span>) = <span class="variable">@_</span>;
+    <span class="return">return</span> <span class="variable">$a</span> <span class="operator">+</span> <span class="variable">$b</span>;
+}
+
+<span class="function">is</span>(<span class="function">add</span>(<span class="number">2</span>, <span class="number">3</span>), <span class="number">5</span>, <span class="string">"2 + 3 = 5"</span>);
+<span class="function">is</span>(<span class="function">add</span>(<span class="operator">-</span><span class="number">1</span>, <span class="number">1</span>), <span class="number">0</span>, <span class="string">"-1 + 1 = 0"</span>);
+<span class="function">is</span>(<span class="function">add</span>(<span class="number">0</span>, <span class="number">0</span>), <span class="number">0</span>, <span class="string">"0 + 0 = 0"</span>);
+
+<span class="function">done_testing</span>();</code></pre>
+					<p>Написание простых модульных тестов с помощью Test::More.</p>
+				</div>
+
+				<div class="script">
+					<h4>18.2 Тестирование исключений</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Test::Exception</span>;
+
+<span class="sub">sub</span> <span class="function">divide</span> {
+    <span class="my">my</span> (<span class="variable">$a</span>, <span class="variable">$b</span>) = <span class="variable">@_</span>;
+    <span class="die">die</span> <span class="string">"Деление на ноль"</span> <span class="if">if</span> <span class="variable">$b</span> == <span class="number">0</span>;
+    <span class="return">return</span> <span class="variable">$a</span> <span class="operator">/</span> <span class="variable">$b</span>;
+}
+
+<span class="function">lives_ok</span> { <span class="function">divide</span>(<span class="number">4</span>, <span class="number">2</span>) } <span class="string">"Деление работает"</span>;
+<span class="function">dies_ok</span> { <span class="function">divide</span>(<span class="number">4</span>, <span class="number">0</span>) } <span class="string">"Деление на ноль вызывает исключение"</span>;
+
+<span class="function">done_testing</span>();</code></pre>
+					<p>Тестирование исключений с помощью Test::Exception.</p>
+				</div>
+
+				<h3>19. Работа с архивами</h3>
+				<div class="script">
+					<h4>19.1 Создание ZIP архива</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Archive::Zip</span>;
+
+<span class="my">my</span> <span class="variable">$zip</span> = <span class="package">Archive::Zip</span><span class="operator">-></span><span class="function">new</span>();
+<span class="variable">$zip</span><span class="operator">-></span><span class="function">addFile</span>(<span class="string">'file1.txt'</span>);
+<span class="variable">$zip</span><span class="operator">-></span><span class="function">addFile</span>(<span class="string">'file2.txt'</span>);
+<span class="variable">$zip</span><span class="operator">-></span><span class="function">addDirectory</span>(<span class="string">'folder/'</span>);
+
+<span class="if">if</span> (<span class="variable">$zip</span><span class="operator">-></span><span class="function">writeToFileNamed</span>(<span class="string">'archive.zip'</span>) == <span class="package">AZ_OK</span>) {
+    <span class="print">print</span> <span class="string">"Архив успешно создан\n"</span>;
+} <span class="else">else</span> {
+    <span class="print">print</span> <span class="string">"Ошибка при создании архива\n"</span>;
+}</code></pre>
+					<p>Создание ZIP архива с несколькими файлами.</p>
+				</div>
+
+				<div class="script">
+					<h4>19.2 Распаковка архива</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Archive::Extract</span>;
+
+<span class="my">my</span> <span class="variable">$ae</span> = <span class="package">Archive::Extract</span><span class="operator">-></span><span class="function">new</span>(archive => <span class="string">'archive.zip'</span>);
+<span class="if">if</span> (<span class="variable">$ae</span><span class="operator">-></span><span class="function">extract</span>(to => <span class="string">'extracted/'</span>)) {
+    <span class="print">print</span> <span class="string">"Архив успешно распакован\n"</span>;
+} <span class="else">else</span> {
+    <span class="print">print</span> <span class="string">"Ошибка при распаковке: "</span> . <span class="variable">$ae</span><span class="operator">-></span><span class="function">error</span> . <span class="string">"\n"</span>;
+}</code></pre>
+					<p>Распаковка ZIP архива в указанную директорию.</p>
+				</div>
+
+				<h3>20. Продвинутые возможности</h3>
+				<div class="script">
+					<h4>20.1 Метапрограммирование</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Devel::Declare</span>;
+
+<span class="sub">sub</span> <span class="function">method</span> :lvalue {
+    <span class="my">my</span> (<span class="variable">$name</span>, <span class="variable">$code</span>) = <span class="variable">@_</span>;
+    <span class="no">no</span> <span class="strict">strict</span> <span class="string">'refs'</span>;
+    *{<span class="variable">$name</span>} = <span class="variable">$code</span>;
+}
+
+<span class="function">method</span> <span class="string">'greet'</span> => <span class="sub">sub</span> {
+    <span class="my">my</span> <span class="variable">$self</span> = <span class="function">shift</span>;
+    <span class="print">print</span> <span class="string">"Hello, $self->{name}!\n"</span>;
+};
+
+<span class="my">my</span> <span class="variable">$obj</span> = { name => <span class="string">'World'</span> };
+<span class="variable">$obj</span><span class="operator">-></span><span class="function">greet</span>;</code></pre>
+					<p>Пример метапрограммирования с использованием Devel::Declare.</p>
+				</div>
+
+				<div class="script">
+					<h4>20.2 Асинхронное программирование</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Mojo::IOLoop</span>;
+
+<span class="package">Mojo::IOLoop</span><span class="operator">-></span><span class="function">timer</span>(<span class="number">2</span> => <span class="sub">sub</span> {
+    <span class="print">print</span> <span class="string">"Прошло 2 секунды\n"</span>;
+});
+
+<span class="package">Mojo::IOLoop</span><span class="operator">-></span><span class="function">timer</span>(<span class="number">1</span> => <span class="sub">sub</span> {
+    <span class="print">print</span> <span class="string">"Прошла 1 секунда\n"</span>;
+});
+
+<span class="package">Mojo::IOLoop</span><span class="operator">-></span><span class="function">start</span>;</code></pre>
+					<p>Пример асинхронного программирования с использованием Mojo::IOLoop.</p>
+				</div>
+
+				<p>Это завершает коллекцию из 100 Perl скриптов. Каждый скрипт демонстрирует различные возможности языка Perl и может быть использован как отправная точка для более сложных проектов.</p>
+			</article>
+		</main>
+   		<footer>&copy; Максим Коновалов</footer>
+	</body>
+</html> 

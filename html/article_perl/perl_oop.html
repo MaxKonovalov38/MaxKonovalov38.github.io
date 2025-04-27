@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Modern OOP in Perl - Comprehensive guide to object-oriented programming in Perl">
+
+		<title>Modern OOP in Perl | MaxKonovalov38</title>
+
+		<link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="../../favicon/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="../../favicon/favicon-16x16.png">
+		<link rel="manifest" href="../../favicon/site.webmanifest">
+
+		<link rel="stylesheet" href="../../css/reset.css">
+		<link rel="stylesheet" href="../../css/ch_styles.css">
+		<link rel="stylesheet" href="../../css/scripts_styles.css">
+  	</head>
+  	<body>
+  		<header>
+  			<h1>MaxKonovalov38</h1>
+  		</header>
+		<main>
+  			<nav>
+  				<p>Проекты:</p>
+  				<p><a href="../../index.html">Главная</a></p>
+  				<p><a href="../main/rust_main.html">Rust</a></p>
+  				<p><a href="../main/perl_main.html">Perl</a></p>
+  				<p><a href="../main/python_main.html">Python</a></p>
+  				<p>Статьи:</p>
+  				<p><a href="../article_perl/perl_scripts.html">100 Perl Scripts</a></p>
+  				<p><a href="../article_perl/perl_5.40.html">Perl v.5.40</a></p>
+  				<p><a href="../article_perl/perl_linux_automation.html">Perl Linux Automation</a></p>
+  				<p><a href="../article_perl/perl_ai_chatbot.html">Perl AI Chat-bot</a></p>
+  				<p><a href="../article_perl/perl_oop.html">Perl OOP</a></p>
+  				<p><a href="../article_perl/perl_debugging.html">Perl Debug Code</a></p>
+  				<p><a href="../article_perl/perl_pentest.html">Perl Pentest</a></p>
+  			</nav>
+  			<article>
+  				<h2>Современное ООП в Perl</h2>
+  				<p>Полное руководство по объектно-ориентированному программированию в Perl с использованием современных практик и модулей.</p>
+
+				<h3>1. Основы ООП в Perl</h3>
+				<div class="script">
+					<h4>1.1 Классы и объекты</h4>
+<pre><code><span class="package">package</span> <span class="package">Person</span>;
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="sub">sub</span> <span class="function">new</span> {
+    <span class="my">my</span> (<span class="variable">$class</span>, <span class="variable">%args</span>) = <span class="variable">@_</span>;
+    <span class="my">my</span> <span class="variable">$self</span> = {
+        name => <span class="variable">$args</span>{name} <span class="operator">//</span> <span class="string">'Unknown'</span>,
+        age  => <span class="variable">$args</span>{age}  <span class="operator">//</span> <span class="number">0</span>,
+    };
+    <span class="return">return</span> <span class="function">bless</span> <span class="variable">$self</span>, <span class="variable">$class</span>;
+}
+
+<span class="sub">sub</span> <span class="function">name</span> {
+    <span class="my">my</span> (<span class="variable">$self</span>) = <span class="variable">@_</span>;
+    <span class="return">return</span> <span class="variable">$self</span><span class="operator">-></span>{name};
+}
+
+<span class="sub">sub</span> <span class="function">age</span> {
+    <span class="my">my</span> (<span class="variable">$self</span>) = <span class="variable">@_</span>;
+    <span class="return">return</span> <span class="variable">$self</span><span class="operator">-></span>{age};
+}
+
+<span class="number">1</span>;</code></pre>
+					<p>Базовый класс Person с конструктором и методами доступа.</p>
+				</div>
+
+				<div class="script">
+					<h4>1.2 Наследование</h4>
+<pre><code><span class="package">package</span> <span class="package">Employee</span>;
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">parent</span> <span class="string">'Person'</span>;
+
+<span class="sub">sub</span> <span class="function">new</span> {
+    <span class="my">my</span> (<span class="variable">$class</span>, <span class="variable">%args</span>) = <span class="variable">@_</span>;
+    <span class="my">my</span> <span class="variable">$self</span> = <span class="variable">$class</span><span class="operator">-></span><span class="function">SUPER::new</span>(<span class="variable">%args</span>);
+    <span class="variable">$self</span><span class="operator">-></span>{salary} = <span class="variable">$args</span>{salary} <span class="operator">//</span> <span class="number">0</span>;
+    <span class="return">return</span> <span class="variable">$self</span>;
+}
+
+<span class="sub">sub</span> <span class="function">salary</span> {
+    <span class="my">my</span> (<span class="variable">$self</span>) = <span class="variable">@_</span>;
+    <span class="return">return</span> <span class="variable">$self</span><span class="operator">-></span>{salary};
+}</code></pre>
+					<p>Класс Employee, наследующий от Person и добавляющий свойство salary.</p>
+				</div>
+
+				<h3>2. Современные практики</h3>
+				<div class="script">
+					<h4>2.1 Использование Moose</h4>
+<pre><code><span class="package">package</span> <span class="package">User</span>;
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Moose</span>;
+
+<span class="has">has</span> <span class="string">'username'</span> => (
+    <span class="variable">is</span>       => <span class="string">'ro'</span>,
+    <span class="variable">isa</span>      => <span class="string">'Str'</span>,
+    <span class="variable">required</span> => <span class="number">1</span>,
+);
+
+<span class="has">has</span> <span class="string">'email'</span> => (
+    <span class="variable">is</span>       => <span class="string">'rw'</span>,
+    <span class="variable">isa</span>      => <span class="string">'Str'</span>,
+    <span class="variable">required</span> => <span class="number">1</span>,
+);
+
+<span class="has">has</span> <span class="string">'password'</span> => (
+    <span class="variable">is</span>       => <span class="string">'rw'</span>,
+    <span class="variable">isa</span>      => <span class="string">'Str'</span>,
+    <span class="variable">required</span> => <span class="number">1</span>,
+    <span class="variable">trigger</span>   => <span class="sub">sub</span> {
+        <span class="my">my</span> (<span class="variable">$self</span>, <span class="variable">$new</span>) = <span class="variable">@_</span>;
+        <span class="variable">$self</span><span class="operator">-></span><span class="function">_hash_password</span>(<span class="variable">$new</span>);
+    },
+);
+
+<span class="sub">sub</span> <span class="function">_hash_password</span> {
+    <span class="my">my</span> (<span class="variable">$self</span>, <span class="variable">$password</span>) = <span class="variable">@_</span>;
+    <span class="comment"># Хеширование пароля</span>
+    <span class="variable">$self</span><span class="operator">-></span>{password} = <span class="function">sha256_hex</span>(<span class="variable">$password</span>);
+}
+
+<span class="function">__PACKAGE__</span><span class="operator">-></span><span class="function">meta</span><span class="operator">-></span><span class="function">make_immutable</span>;</code></pre>
+					<p>Современный класс с использованием Moose, включая атрибуты, типы и триггеры.</p>
+				</div>
+
+				<div class="script">
+					<h4>2.2 Роли (Traits)</h4>
+<pre><code><span class="package">package</span> <span class="package">Role::Loggable</span>;
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Moose::Role</span>;
+
+<span class="has">has</span> <span class="string">'logger'</span> => (
+    <span class="variable">is</span>      => <span class="string">'ro'</span>,
+    <span class="variable">isa</span>     => <span class="string">'Logger'</span>,
+    <span class="variable">handles</span> => {
+        <span class="string">'log_info'</span>  => <span class="string">'info'</span>,
+        <span class="string">'log_error'</span> => <span class="string">'error'</span>,
+    },
+);
+
+<span class="sub">sub</span> <span class="function">log_action</span> {
+    <span class="my">my</span> (<span class="variable">$self</span>, <span class="variable">$action</span>) = <span class="variable">@_</span>;
+    <span class="variable">$self</span><span class="operator">-></span><span class="function">log_info</span>(<span class="string">"Action performed: $action"</span>);
+}</code></pre>
+					<p>Роль Loggable, добавляющая функциональность логирования.</p>
+				</div>
+
+				<h3>3. Продвинутые возможности</h3>
+				<div class="script">
+					<h4>3.1 Метапрограммирование</h4>
+<pre><code><span class="package">package</span> <span class="package">Meta::Class</span>;
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Moose</span>;
+
+<span class="sub">sub</span> <span class="function">add_method</span> {
+    <span class="my">my</span> (<span class="variable">$class</span>, <span class="variable">$name</span>, <span class="variable">$code</span>) = <span class="variable">@_</span>;
+    <span class="variable">$class</span><span class="operator">-></span><span class="function">meta</span><span class="operator">-></span><span class="function">add_method</span>(<span class="variable">$name</span>, <span class="variable">$code</span>);
+}
+
+<span class="sub">sub</span> <span class="function">add_attribute</span> {
+    <span class="my">my</span> (<span class="variable">$class</span>, <span class="variable">$name</span>, <span class="variable">%spec</span>) = <span class="variable">@_</span>;
+    <span class="variable">$class</span><span class="operator">-></span><span class="function">meta</span><span class="operator">-></span><span class="function">add_attribute</span>(<span class="variable">$name</span>, <span class="variable">%spec</span>);
+}
+
+<span class="function">__PACKAGE__</span><span class="operator">-></span><span class="function">meta</span><span class="operator">-></span><span class="function">make_immutable</span>;</code></pre>
+					<p>Пример метапрограммирования с использованием Moose.</p>
+				</div>
+
+				<div class="script">
+					<h4>3.2 Декораторы</h4>
+<pre><code><span class="package">package</span> <span class="package">Decorator::Cache</span>;
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Moose</span>;
+
+<span class="has">has</span> <span class="string">'cache'</span> => (
+    <span class="variable">is</span>      => <span class="string">'ro'</span>,
+    <span class="variable">isa</span>     => <span class="string">'HashRef'</span>,
+    <span class="variable">default</span> => <span class="sub">sub</span> { {} },
+);
+
+<span class="sub">sub</span> <span class="function">decorate</span> {
+    <span class="my">my</span> (<span class="variable">$self</span>, <span class="variable">$method</span>) = <span class="variable">@_</span>;
+    <span class="return">return</span> <span class="sub">sub</span> {
+        <span class="my">my</span> (<span class="variable">$object</span>, <span class="variable">@args</span>) = <span class="variable">@_</span>;
+        <span class="my">my</span> <span class="variable">$key</span> = <span class="function">join</span>(<span class="string">':'</span>, <span class="variable">$method</span>, <span class="function">join</span>(<span class="string">','</span>, <span class="variable">@args</span>));
+        <span class="return">return</span> <span class="variable">$self</span><span class="operator">-></span>{cache}{<span class="variable">$key</span>} <span class="if">if</span> <span class="function">exists</span> <span class="variable">$self</span><span class="operator">-></span>{cache}{<span class="variable">$key</span>};
+        <span class="variable">$self</span><span class="operator">-></span>{cache}{<span class="variable">$key</span>} = <span class="variable">$object</span><span class="operator">-></span><span class="variable">$method</span>(<span class="variable">@args</span>);
+    };
+}</code></pre>
+					<p>Декоратор для кэширования результатов методов.</p>
+				</div>
+
+				<h3>4. Тестирование ООП кода</h3>
+				<div class="script">
+					<h4>4.1 Модульные тесты</h4>
+<pre><code><span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Test::More</span>;
+<span class="use">use</span> <span class="package">Test::Moose</span>;
+
+<span class="use">use</span> <span class="package">Person</span>;
+
+<span class="my">my</span> <span class="variable">$person</span> = <span class="package">Person</span><span class="operator">-></span><span class="function">new</span>(name => <span class="string">'John'</span>, age => <span class="number">30</span>);
+
+<span class="function">does_ok</span>(<span class="variable">$person</span>, <span class="string">'Person'</span>, <span class="string">'Объект является экземпляром Person'</span>);
+<span class="function">is</span>(<span class="variable">$person</span><span class="operator">-></span><span class="function">name</span>, <span class="string">'John'</span>, <span class="string">'Имя установлено корректно'</span>);
+<span class="function">is</span>(<span class="variable">$person</span><span class="operator">-></span><span class="function">age</span>, <span class="number">30</span>, <span class="string">'Возраст установлен корректно'</span>);
+
+<span class="function">done_testing</span>();</code></pre>
+					<p>Тестирование класса Person с использованием Test::More и Test::Moose.</p>
+				</div>
+
+				<div class="script">
+					<h4>4.2 Тестирование ролей</h4>
+<pre><code><span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Test::More</span>;
+<span class="use">use</span> <span class="package">Test::Moose</span>;
+
+<span class="use">use</span> <span class="package">Role::Loggable</span>;
+
+<span class="my">my</span> <span class="variable">$role</span> = <span class="package">Role::Loggable</span><span class="operator">-></span><span class="function">meta</span>;
+
+<span class="function">does_ok</span>(<span class="variable">$role</span>, <span class="string">'Moose::Role'</span>, <span class="string">'Role::Loggable является ролью'</span>);
+<span class="function">has_attribute_ok</span>(<span class="variable">$role</span>, <span class="string">'logger'</span>, <span class="string">'Роль имеет атрибут logger'</span>);
+<span class="function">can_ok</span>(<span class="variable">$role</span>, <span class="string">'log_action'</span>, <span class="string">'Роль имеет метод log_action'</span>);
+
+<span class="function">done_testing</span>();</code></pre>
+					<p>Тестирование роли Loggable с использованием Test::Moose.</p>
+				</div>
+
+				<h3>5. Лучшие практики</h3>
+				<div class="script">
+					<h4>5.1 Иммутабельные объекты</h4>
+<pre><code><span class="package">package</span> <span class="package">Immutable::Point</span>;
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Moose</span>;
+
+<span class="has">has</span> <span class="string">'x'</span> => (
+    <span class="variable">is</span>       => <span class="string">'ro'</span>,
+    <span class="variable">isa</span>      => <span class="string">'Int'</span>,
+    <span class="variable">required</span> => <span class="number">1</span>,
+);
+
+<span class="has">has</span> <span class="string">'y'</span> => (
+    <span class="variable">is</span>       => <span class="string">'ro'</span>,
+    <span class="variable">isa</span>      => <span class="string">'Int'</span>,
+    <span class="variable">required</span> => <span class="number">1</span>,
+);
+
+<span class="sub">sub</span> <span class="function">move</span> {
+    <span class="my">my</span> (<span class="variable">$self</span>, <span class="variable">$dx</span>, <span class="variable">$dy</span>) = <span class="variable">@_</span>;
+    <span class="return">return</span> <span class="package">Immutable::Point</span><span class="operator">-></span><span class="function">new</span>(
+        x => <span class="variable">$self</span><span class="operator">-></span><span class="function">x</span> + <span class="variable">$dx</span>,
+        y => <span class="variable">$self</span><span class="operator">-></span><span class="function">y</span> + <span class="variable">$dy</span>,
+    );
+}
+
+<span class="function">__PACKAGE__</span><span class="operator">-></span><span class="function">meta</span><span class="operator">-></span><span class="function">make_immutable</span>;</code></pre>
+					<p>Пример иммутабельного класса с использованием Moose.</p>
+				</div>
+
+				<div class="script">
+					<h4>5.2 Композиция вместо наследования</h4>
+<pre><code><span class="package">package</span> <span class="package">Logger</span>;
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Moose</span>;
+
+<span class="sub">sub</span> <span class="function">info</span> {
+    <span class="my">my</span> (<span class="variable">$self</span>, <span class="variable">$message</span>) = <span class="variable">@_</span>;
+    <span class="print">print</span> <span class="string">"[INFO] $message\n"</span>;
+}
+
+<span class="function">__PACKAGE__</span><span class="operator">-></span><span class="function">meta</span><span class="operator">-></span><span class="function">make_immutable</span>;
+
+<span class="package">package</span> <span class="package">Service</span>;
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+<span class="use">use</span> <span class="package">Moose</span>;
+
+<span class="has">has</span> <span class="string">'logger'</span> => (
+    <span class="variable">is</span>      => <span class="string">'ro'</span>,
+    <span class="variable">isa</span>     => <span class="string">'Logger'</span>,
+    <span class="variable">handles</span> => [<span class="string">'info'</span>],
+    <span class="variable">required</span> => <span class="number">1</span>,
+);
+
+<span class="sub">sub</span> <span class="function">process</span> {
+    <span class="my">my</span> (<span class="variable">$self</span>, <span class="variable">$data</span>) = <span class="variable">@_</span>;
+    <span class="variable">$self</span><span class="operator">-></span><span class="function">info</span>(<span class="string">"Processing data: $data"</span>);
+    <span class="comment"># Обработка данных</span>
+}
+
+<span class="function">__PACKAGE__</span><span class="operator">-></span><span class="function">meta</span><span class="operator">-></span><span class="function">make_immutable</span>;</code></pre>
+					<p>Пример использования композиции вместо наследования.</p>
+				</div>
+
+				<p>Это руководство охватывает основные аспекты современного ООП в Perl, включая:</p>
+				<ul>
+					<li>Базовые концепции классов и объектов</li>
+					<li>Наследование и композицию</li>
+					<li>Использование Moose для современного ООП</li>
+					<li>Роли и трейты</li>
+					<li>Метапрограммирование</li>
+					<li>Декораторы</li>
+					<li>Тестирование ООП кода</li>
+					<li>Лучшие практики (иммутабельность, композиция)</li>
+				</ul>
+			</article>
+		</main>
+   		<footer>&copy; Максим Коновалов</footer>
+	</body>
+</html> 

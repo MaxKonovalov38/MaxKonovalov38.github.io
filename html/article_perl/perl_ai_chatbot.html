@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Perl AI Chatbot - Simple AI chatbot implementation in Perl">
+
+		<title>Perl AI Chatbot | MaxKonovalov38</title>
+
+		<link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="../../favicon/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="../../favicon/favicon-16x16.png">
+		<link rel="manifest" href="../../favicon/site.webmanifest">
+
+		<link rel="stylesheet" href="../../css/reset.css">
+		<link rel="stylesheet" href="../../css/ch_styles.css">
+		<link rel="stylesheet" href="../../css/scripts_styles.css">
+  	</head>
+  	<body>
+  		<header>
+  			<h1>MaxKonovalov38</h1>
+  		</header>
+		<main>
+  			<nav>
+  				<p>Проекты:</p>
+  				<p><a href="../../index.html">Главная</a></p>
+  				<p><a href="../main/rust_main.html">Rust</a></p>
+  				<p><a href="../main/perl_main.html">Perl</a></p>
+  				<p><a href="../main/python_main.html">Python</a></p>
+  				<p>Статьи:</p>
+  				<p><a href="../article_perl/perl_scripts.html">100 Perl Scripts</a></p>
+  				<p><a href="../article_perl/perl_5.40.html">Perl v.5.40</a></p>
+  				<p><a href="../article_perl/perl_linux_automation.html">Perl Linux Automation</a></p>
+  				<p><a href="../article_perl/perl_ai_chatbot.html">Perl AI Chat-bot</a></p>
+  				<p><a href="../article_perl/perl_oop.html">Perl OOP</a></p>
+  				<p><a href="../article_perl/perl_debugging.html">Perl Debug Code</a></p>
+  				<p><a href="../article_perl/perl_pentest.html">Perl Pentest</a></p>
+  			</nav>
+  			<article>
+  				<h2>Perl AI Чат-бот</h2>
+  				<p>Реализация простого AI чатбота на Perl с использованием различных техник обработки естественного языка и машинного обучения.</p>
+
+				<h3>1. Базовая структура чатбота</h3>
+				<div class="script">
+					<h4>1.1 Основной класс чатбота</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+
+<span class="use">use</span> <span class="package">Text::Levenshtein</span>;
+<span class="use">use</span> <span class="package">JSON</span>;
+<span class="use">use</span> <span class="package">LWP::UserAgent</span>;
+
+<span class="package">package</span> <span class="class">AIChatbot</span>;
+
+<span class="sub">sub</span> <span class="function">new</span> {
+    <span class="my">my</span> (<span class="variable">$class</span>, <span class="variable">%args</span>) = <span class="variable">@_</span>;
+    <span class="my">my</span> <span class="variable">$self</span> = {
+        <span class="variable">knowledge_base</span> => {},
+        <span class="variable">context</span> => {},
+        <span class="variable">user_agent</span> => <span class="package">LWP::UserAgent</span><span class="operator">-></span><span class="function">new</span>,
+        <span class="variable">api_key</span> => <span class="variable">$args</span>{<span class="string">api_key</span>} <span class="operator">//</span> <span class="string">''</span>,
+    };
+
+    <span class="function">bless</span> <span class="variable">$self</span>, <span class="variable">$class</span>;
+    <span class="variable">$self</span><span class="operator">-></span><span class="function">load_knowledge_base</span>;
+
+    <span class="return">return</span> <span class="variable">$self</span>;
+}</code></pre>
+					<p>Базовый класс чатбота с основными атрибутами и методами.</p>
+				</div>
+
+				<div class="script">
+					<h4>1.2 Загрузка базы знаний</h4>
+<pre><code><span class="sub">sub</span> <span class="function">load_knowledge_base</span> {
+    <span class="my">my</span> (<span class="variable">$self</span>) = <span class="variable">@_</span>;
+    <span class="my">my</span> <span class="variable">$kb_file</span> = <span class="string">'knowledge_base.json'</span>;
+    
+    <span class="if">if</span> (-<span class="function">e</span> <span class="variable">$kb_file</span>) {
+        <span class="function">open</span>(<span class="my">my</span> <span class="variable">$fh</span>, <span class="string">'<'</span>, <span class="variable">$kb_file</span>) <span class="operator">or</span> <span class="die">die</span> <span class="string">"Не могу открыть файл: $!"</span>;
+        <span class="my">my</span> <span class="variable">$json_text</span> = <span class="function">do</span> { <span class="function">local</span> <span class="variable">$/</span>; <span class="function">readline</span>(<span class="variable">$fh</span>) };
+        <span class="function">close</span>(<span class="variable">$fh</span>);
+        
+        <span class="variable">$self</span><span class="operator">-></span>{<span class="string">knowledge_base</span>} = <span class="package">JSON</span><span class="operator">-></span><span class="function">new</span><span class="operator">-></span><span class="function">decode</span>(<span class="variable">$json_text</span>);
+    } <span class="else">else</span> {
+        <span class="variable">$self</span><span class="operator">-></span>{<span class="string">knowledge_base</span>} = {
+            <span class="string">'привет'</span> => [<span class="string">'Здравствуйте! Как я могу вам помочь?'</span>, <span class="string">'Привет! Чем могу быть полезен?'</span>],
+            <span class="string">'пока'</span> => [<span class="string">'До свидания! Хорошего дня!'</span>, <span class="string">'Пока! Возвращайтесь!'</span>],
+            <span class="string">'спасибо'</span> => [<span class="string">'Пожалуйста! Обращайтесь!'</span>, <span class="string">'Рад был помочь!'</span>],
+        };
+    }
+}</code></pre>
+					<p>Метод загрузки базы знаний из JSON-файла или создание базовой базы знаний.</p>
+				</div>
+
+				<h3>2. Обработка ввода</h3>
+				<div class="script">
+					<h4>2.1 Предобработка текста</h4>
+<pre><code><span class="sub">sub</span> <span class="function">preprocess_text</span> {
+    <span class="my">my</span> (<span class="variable">$self</span>, <span class="variable">$text</span>) = <span class="variable">@_</span>;
+    
+    <span class="comment"># Приведение к нижнему регистру</span>
+    <span class="variable">$text</span> = <span class="function">lc</span>(<span class="variable">$text</span>);
+    
+    <span class="comment"># Удаление специальных символов</span>
+    <span class="variable">$text</span> =~ <span class="regex">s/[^\w\s]//g</span>;
+    
+    <span class="comment"># Удаление лишних пробелов</span>
+    <span class="variable">$text</span> =~ <span class="regex">s/\s+/ /g</span>;
+    <span class="variable">$text</span> =~ <span class="regex">s/^\s+|\s+$//g</span>;
+    
+    <span class="return">return</span> <span class="variable">$text</span>;
+}</code></pre>
+					<p>Метод предобработки входного текста для улучшения распознавания.</p>
+				</div>
+
+				<div class="script">
+					<h4>2.2 Поиск похожих фраз</h4>
+<pre><code><span class="sub">sub</span> <span class="function">find_similar_phrase</span> {
+    <span class="my">my</span> (<span class="variable">$self</span>, <span class="variable">$input</span>) = <span class="variable">@_</span>;
+    <span class="my">my</span> <span class="variable">$best_match</span>;
+    <span class="my">my</span> <span class="variable">$min_distance</span> = <span class="number">100</span>;
+    
+    <span class="for">foreach</span> <span class="my">my</span> <span class="variable">$phrase</span> (<span class="function">keys</span> <span class="variable">%</span>{<span class="variable">$self</span><span class="operator">-></span>{<span class="string">knowledge_base</span>}}) {
+        <span class="my">my</span> <span class="variable">$distance</span> = <span class="package">Text::Levenshtein</span><span class="operator">::</span><span class="function">distance</span>(<span class="variable">$input</span>, <span class="variable">$phrase</span>);
+        <span class="if">if</span> (<span class="variable">$distance</span> < <span class="variable">$min_distance</span>) {
+            <span class="variable">$min_distance</span> = <span class="variable">$distance</span>;
+            <span class="variable">$best_match</span> = <span class="variable">$phrase</span>;
+        }
+    }
+    
+    <span class="return">return</span> <span class="variable">$min_distance</span> <= <span class="number">3</span> ? <span class="variable">$best_match</span> : <span class="keyword">undef</span>;
+}</code></pre>
+					<p>Метод поиска похожих фраз в базе знаний с использованием расстояния Левенштейна.</p>
+				</div>
+
+				<h3>3. Генерация ответов</h3>
+				<div class="script">
+					<h4>3.1 Локальная генерация ответа</h4>
+<pre><code><span class="sub">sub</span> <span class="function">generate_local_response</span> {
+    <span class="my">my</span> (<span class="variable">$self</span>, <span class="variable">$phrase</span>) = <span class="variable">@_</span>;
+    
+    <span class="if">if</span> (<span class="function">exists</span> <span class="variable">$self</span><span class="operator">-></span>{<span class="string">knowledge_base</span>}{<span class="variable">$phrase</span>}) {
+        <span class="my">my</span> <span class="variable">$responses</span> = <span class="variable">$self</span><span class="operator">-></span>{<span class="string">knowledge_base</span>}{<span class="variable">$phrase</span>};
+        <span class="return">return</span> <span class="variable">$responses</span>[<span class="function">int</span>(<span class="function">rand</span>(<span class="function">scalar</span> <span class="variable">@$responses</span>))];
+    }
+    
+    <span class="return">return</span> <span class="string">"Извините, я не понимаю. Можете переформулировать вопрос?"</span>;
+}</code></pre>
+					<p>Метод генерации ответа на основе локальной базы знаний.</p>
+				</div>
+
+				<div class="script">
+					<h4>3.2 Использование внешнего API</h4>
+<pre><code><span class="sub">sub</span> <span class="function">generate_api_response</span> {
+    <span class="my">my</span> (<span class="variable">$self</span>, <span class="variable">$input</span>) = <span class="variable">@_</span>;
+    
+    <span class="my">my</span> <span class="variable">$response</span> = <span class="variable">$self</span><span class="operator">-></span>{<span class="string">user_agent</span>}<span class="operator">-></span><span class="function">post</span>(
+        <span class="string">'https://api.openai.com/v1/chat/completions'</span>,
+        <span class="variable">Content_Type</span> => <span class="string">'application/json'</span>,
+        <span class="variable">Authorization</span> => <span class="string">"Bearer $self->{api_key}"</span>,
+        <span class="variable">Content</span> => <span class="package">JSON</span><span class="operator">-></span><span class="function">encode</span>({
+            <span class="string">model</span> => <span class="string">"gpt-3.5-turbo"</span>,
+            <span class="string">messages</span> => [
+                { <span class="string">role</span> => <span class="string">"system"</span>, <span class="string">content</span> => <span class="string">"Вы - полезный ассистент."</span> },
+                { <span class="string">role</span> => <span class="string">"user"</span>, <span class="string">content</span> => <span class="variable">$input</span> }
+            ],
+            <span class="string">temperature</span> => <span class="number">0.7</span>
+        })
+    );
+    
+    <span class="if">if</span> (<span class="variable">$response</span><span class="operator">-></span><span class="function">is_success</span>) {
+        <span class="my">my</span> <span class="variable">$data</span> = <span class="package">JSON</span><span class="operator">-></span><span class="function">decode</span>(<span class="variable">$response</span><span class="operator">-></span><span class="function">content</span>);
+        <span class="return">return</span> <span class="variable">$data</span><span class="operator">-></span>{<span class="string">choices</span>}[<span class="number">0</span>]<span class="operator">-></span>{<span class="string">message</span>}<span class="operator">-></span>{<span class="string">content</span>};
+    }
+    
+    <span class="return">return</span> <span class="string">"Извините, произошла ошибка при обработке запроса."</span>;
+}</code></pre>
+					<p>Метод генерации ответа с использованием внешнего API (например, OpenAI).</p>
+				</div>
+
+				<h3>4. Основной цикл работы</h3>
+				<div class="script">
+					<h4>4.1 Обработка диалога</h4>
+<pre><code><span class="sub">sub</span> <span class="function">process_dialog</span> {
+    <span class="my">my</span> (<span class="variable">$self</span>, <span class="variable">$input</span>) = <span class="variable">@_</span>;
+    
+    <span class="comment"># Предобработка ввода</span>
+    <span class="my">my</span> <span class="variable">$processed_input</span> = <span class="variable">$self</span><span class="operator">-></span><span class="function">preprocess_text</span>(<span class="variable">$input</span>);
+    
+    <span class="comment"># Поиск похожей фразы</span>
+    <span class="my">my</span> <span class="variable">$similar_phrase</span> = <span class="variable">$self</span><span class="operator">-></span><span class="function">find_similar_phrase</span>(<span class="variable">$processed_input</span>);
+    
+    <span class="comment"># Генерация ответа</span>
+    <span class="my">my</span> <span class="variable">$response</span>;
+    <span class="if">if</span> (<span class="variable">$similar_phrase</span>) {
+        <span class="variable">$response</span> = <span class="variable">$self</span><span class="operator">-></span><span class="function">generate_local_response</span>(<span class="variable">$similar_phrase</span>);
+    } <span class="else">else</span> {
+        <span class="variable">$response</span> = <span class="variable">$self</span><span class="operator">-></span><span class="function">generate_api_response</span>(<span class="variable">$input</span>);
+    }
+    
+    <span class="comment"># Обновление контекста</span>
+    <span class="variable">$self</span><span class="operator">-></span>{<span class="string">context</span>}{<span class="string">last_input</span>} = <span class="variable">$input</span>;
+    <span class="variable">$self</span><span class="operator">-></span>{<span class="string">context</span>}{<span class="string">last_response</span>} = <span class="variable">$response</span>;
+    
+    <span class="return">return</span> <span class="variable">$response</span>;
+}</code></pre>
+					<p>Основной метод обработки диалога, объединяющий все компоненты чатбота.</p>
+				</div>
+
+				<h3>5. Пример использования</h3>
+				<div class="script">
+					<h4>5.1 Запуск чатбота</h4>
+<pre><code><span class="package">package</span> <span class="class">main</span>;
+
+<span class="my">my</span> <span class="variable">$bot</span> = <span class="package">AIChatbot</span><span class="operator">-></span><span class="function">new</span>(
+    <span class="variable">api_key</span> => <span class="string">'your-api-key-here'</span>
+);
+
+<span class="print">print</span> <span class="string">"Чатбот запущен. Введите 'выход' для завершения.\n"</span>;
+
+<span class="while">while</span> (<span class="number">1</span>) {
+    <span class="print">print</span> <span class="string">"\nВы: "</span>;
+    <span class="my">my</span> <span class="variable">$input</span> = <span class="function">readline</span>(<span class="variable">STDIN</span>);
+    <span class="function">chomp</span>(<span class="variable">$input</span>);
+    
+    <span class="last">last</span> <span class="if">if</span> <span class="variable">$input</span> =~ <span class="regex">/^выход$/i</span>;
+    
+    <span class="my">my</span> <span class="variable">$response</span> = <span class="variable">$bot</span><span class="operator">-></span><span class="function">process_dialog</span>(<span class="variable">$input</span>);
+    <span class="print">print</span> <span class="string">"Бот: $response\n"</span>;
+}</code></pre>
+					<p>Пример использования чатбота в интерактивном режиме.</p>
+				</div>
+
+				<h3>Заключение</h3>
+				<p>Этот чатбот демонстрирует основные принципы создания AI-ассистента на Perl. Он включает:</p>
+				<ul>
+					<li>Локальную базу знаний с простыми ответами</li>
+					<li>Обработку естественного языка</li>
+					<li>Поиск похожих фраз</li>
+					<li>Интеграцию с внешними API</li>
+					<li>Управление контекстом диалога</li>
+				</ul>
+				
+				<p>Для улучшения чатбота можно:</p>
+				<ol>
+					<li>Расширить базу знаний</li>
+					<li>Добавить обучение на основе диалогов</li>
+					<li>Улучшить обработку контекста</li>
+					<li>Добавить поддержку разных языков</li>
+					<li>Реализовать сохранение истории диалогов</li>
+				</ol>
+			</article>
+		</main>
+   		<footer>&copy; Максим Коновалов</footer>
+	</body>
+</html> 

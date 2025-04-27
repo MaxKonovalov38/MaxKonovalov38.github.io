@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Perl 5.40 - New features and changes">
+
+		<title>Perl 5.40 | MaxKonovalov38</title>
+
+		<link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="../../favicon/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="../../favicon/favicon-16x16.png">
+		<link rel="manifest" href="../../favicon/site.webmanifest">
+
+		<link rel="stylesheet" href="../../css/reset.css">
+		<link rel="stylesheet" href="../../css/ch_styles.css">
+		<link rel="stylesheet" href="../../css/scripts_styles.css">
+  	</head>
+  	<body>
+  		<header>
+  			<h1>MaxKonovalov38</h1>
+  		</header>
+		<main>
+  			<nav>
+  				<p>Проекты:</p>
+  				<p><a href="../../index.html">Главная</a></p>
+  				<p><a href="../main/rust_main.html">Rust</a></p>
+  				<p><a href="../main/perl_main.html">Perl</a></p>
+  				<p><a href="../main/python_main.html">Python</a></p>
+  				<p>Статьи:</p>
+  				<p><a href="../article_perl/perl_scripts.html">100 Perl Scripts</a></p>
+  				<p><a href="../article_perl/perl_5.40.html">Perl v.5.40</a></p>
+  				<p><a href="../article_perl/perl_linux_automation.html">Perl Linux Automation</a></p>
+  				<p><a href="../article_perl/perl_ai_chatbot.html">Perl AI Chat-bot</a></p>
+  				<p><a href="../article_perl/perl_oop.html">Perl OOP</a></p>
+  				<p><a href="../article_perl/perl_debugging.html">Perl Debug Code</a></p>
+  				<p><a href="../article_perl/perl_pentest.html">Perl Pentest</a></p>
+  			</nav>
+  			<article>
+  				<h2>Perl 5.40 - Новые возможности</h2>
+  				<p>Perl 5.40 - это последняя версия языка программирования Perl, выпущенная в 2024 году. В этой версии представлены новые возможности и улучшения, которые делают язык более мощным и удобным для программистов.</p>
+
+				<h3>1. Новые возможности</h3>
+				<div class="script">
+					<h4>1.1 Улучшенная обработка Unicode</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+<span class="use">use</span> <span class="package">v5.40</span>;
+
+<span class="my">my</span> <span class="variable">$text</span> = <span class="string">"Привет, мир! 🌍"</span>;
+<span class="print">print</span> <span class="string">"Длина строки: "</span> . <span class="function">length</span>(<span class="variable">$text</span>) . <span class="string">"\n"</span>;
+</code></pre>
+					<p>В Perl 5.40 улучшена поддержка Unicode, включая более точную обработку эмодзи и других специальных символов.</p>
+				</div>
+
+				<div class="script">
+					<h4>1.2 Новый оператор `~~` для сравнения</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+<span class="use">use</span> <span class="package">v5.40</span>;
+
+<span class="my">my</span> <span class="variable">$str</span> = <span class="string">"Hello"</span>;
+
+<span class="if">if</span> (<span class="variable">$str</span> <span class="operator">~~</span> <span class="string">"Hello"</span>) {
+	<span class="print">print</span> <span class="string">"Строки совпадают\n"</span>;
+}</code></pre>
+					<p>Новый оператор `~~` предоставляет более интуитивный способ сравнения строк и чисел.</p>
+				</div>
+
+				<h3>2. Улучшения производительности</h3>
+				<div class="script">
+					<h4>2.1 Оптимизация регулярных выражений</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+<span class="use">use</span> <span class="package">v5.40</span>;
+
+<span class="my">my</span> <span class="variable">$text</span> = <span class="string">"a"</span> x <span class="number">1000000</span>;
+
+<span class="if">if</span> (<span class="variable">$text</span> =~ <span class="regex">/a+/</span>) {
+    <span class="print">print</span> <span class="string">"Найдено совпадение\n"</span>;
+}</code></pre>
+					<p>Регулярные выражения в Perl 5.40 работают значительно быстрее, особенно с большими строками.</p>
+				</div>
+
+				<div class="script">
+					<h4>2.2 Улучшенная работа с массивами</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+<span class="use">use</span> <span class="package">v5.40</span>;
+
+<span class="my">my</span> <span class="array">@array</span> = (<span class="number">1</span>..<span class="number">1000000</span>);
+<span class="my">my</span> <span class="variable">$sum</span> = <span class="number">0</span>;
+
+<span class="variable">$sum</span> += <span class="variable">$_</span> <span class="for">for</span> <span class="array">@array</span>;
+<span class="print">print</span> <span class="string">"Сумма: $sum\n"</span>;</code></pre>
+					<p>Операции с массивами стали более эффективными, особенно при работе с большими наборами данных.</p>
+				</div>
+
+				<h3>3. Новые прагмы и модули</h3>
+				<div class="script">
+					<h4>3.1 Прагма `use v5.40`</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+<span class="use">use</span> <span class="package">v5.40</span>;
+
+<span class="print">print</span> <span class="string">"Используется Perl 5.40\n"</span>;</code></pre>
+					<p>Новая прагма `use v5.40` включает все новые возможности этой версии.</p>
+				</div>
+
+				<div class="script">
+					<h4>3.2 Новый модуль `experimental`</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+<span class="use">use</span> <span class="package">experimental</span> <span class="string">'smartmatch'</span>;
+
+<span class="my">my</span> <span class="variable">$value</span> = <span class="number">42</span>;
+
+<span class="given">given</span> (<span class="variable">$value</span>) {
+    <span class="when">when</span> (<span class="number">42</span>) { <span class="print">print</span> <span class="string">"Ответ на главный вопрос\n"</span> }
+    <span class="default">default</span> { <span class="print">print</span> <span class="string">"Неизвестный ответ\n"</span> }
+}</code></pre>
+					<p>Модуль `experimental` позволяет использовать экспериментальные возможности Perl.</p>
+				</div>
+
+				<h3>4. Улучшения безопасности</h3>
+				<div class="script">
+					<h4>4.1 Улучшенная обработка taint-режима</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+<span class="use">use</span> <span class="package">v5.40</span>;
+
+<span class="use">use</span> <span class="package">Taint</span>;
+
+<span class="my">my</span> <span class="variable">$input</span> = <span class="function">taint</span>(<span class="function">shift</span>);
+
+<span class="if">if</span> (<span class="function">is_tainted</span>(<span class="variable">$input</span>)) {
+    <span class="print">print</span> <span class="string">"Входные данные помечены как ненадежные\n"</span>;
+}</code></pre>
+					<p>Улучшенная система taint-режима помогает предотвращать уязвимости безопасности.</p>
+				</div>
+
+				<div class="script">
+					<h4>4.2 Новые функции для работы с паролями</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+<span class="use">use</span> <span class="package">v5.40</span>;
+
+<span class="use">use</span> <span class="package">Crypt::Password</span>;
+
+<span class="my">my</span> <span class="variable">$password</span> = <span class="string">"secret"</span>;
+<span class="my">my</span> <span class="variable">$hash</span> = <span class="function">crypt_password</span>(<span class="variable">$password</span>);
+
+<span class="print">print</span> <span class="string">"Хеш пароля: $hash\n"</span>;</code></pre>
+					<p>Новые функции для безопасной работы с паролями и криптографией.</p>
+				</div>
+
+				<h3>5. Улучшения в отладке</h3>
+				<div class="script">
+					<h4>5.1 Улучшенный отладчик</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+<span class="use">use</span> <span class="package">v5.40</span>;
+
+<span class="use">use</span> <span class="package">Devel::Debug</span>;
+
+<span class="function">debug</span> {
+    <span class="my">my</span> <span class="variable">$x</span> = <span class="number">10</span>;
+    <span class="my">my</span> <span class="variable">$y</span> = <span class="number">20</span>;
+    <span class="my">my</span> <span class="variable">$z</span> = <span class="variable">$x</span> + <span class="variable">$y</span>;
+    <span class="print">print</span> <span class="string">"Результат: $z\n"</span>;
+};</code></pre>
+					<p>Улучшенный отладчик с более удобным интерфейсом и новыми возможностями.</p>
+				</div>
+
+				<div class="script">
+					<h4>5.2 Новые диагностические сообщения</h4>
+<pre><code><span class="shebang">#!/usr/bin/perl</span>
+<span class="use">use</span> <span class="strict">strict</span>;
+<span class="use">use</span> <span class="warnings">warnings</span>;
+<span class="use">use</span> <span class="package">v5.40</span>;
+<span class="use">use</span> <span class="package">diagnostics</span>;
+
+<span class="my">my</span> <span class="variable">$x</span>;
+<span class="print">print</span> <span class="variable">$x</span> + <span class="number">1</span>;</code></pre>
+					<p>Более информативные сообщения об ошибках и предупреждениях.</p>
+				</div>
+
+				<h3>Заключение</h3>
+				<p>Perl 5.40 представляет собой значительный шаг вперед в развитии языка. Новые возможности, улучшения производительности и безопасности делают Perl еще более мощным инструментом для разработки. Версия 5.40 особенно полезна для:</p>
+				<ul>
+					<li>Разработчиков, работающих с большими объемами данных</li>
+					<li>Системных администраторов, которым важна безопасность</li>
+					<li>Программистов, использующих регулярные выражения</li>
+					<li>Разработчиков, которым нужна хорошая поддержка Unicode</li>
+				</ul>
+				
+				<p>Для перехода на Perl 5.40 рекомендуется:</p>
+				<ol>
+					<li>Обновить все установленные модули</li>
+					<li>Проверить код на совместимость с новыми возможностями</li>
+					<li>Использовать новые функции для улучшения производительности</li>
+					<li>Внедрить новые механизмы безопасности</li>
+				</ol>
+			</article>
+		</main>
+   		<footer>&copy; Максим Коновалов</footer>
+	</body>
+</html> 
