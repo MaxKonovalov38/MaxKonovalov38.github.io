@@ -1,0 +1,85 @@
+/* Основные стили для страницы скриптов */
+.script {
+    margin-bottom: 2em;
+    padding: 1em;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.script h4 {
+    color: #2c3e50;
+    margin-bottom: 0.5em;
+    font-size: 1.2em;
+}
+
+.script pre {
+    background-color: #2d2d2d;
+    color: #f8f8f2;
+    padding: 1em;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 1em 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+.script code {
+    display: block;
+    white-space: pre;
+}
+
+.script p {
+    color: #34495e;
+    line-height: 1.6;
+    margin-top: 0.5em;
+}
+
+/* Подсветка синтаксиса Perl */
+.script code .shebang { color: #75715e; }      /* Шебанг */
+.script code .use { color: #f92672; }          /* use */
+.script code .strict { color: #f92672; }       /* strict */
+.script code .warnings { color: #f92672; }     /* warnings */
+.script code .package { color: #f92672; }      /* package */
+.script code .sub { color: #f92672; }          /* sub */
+.script code .my { color: #f92672; }           /* my */
+.script code .our { color: #f92672; }          /* our */
+.script code .if { color: #f92672; }           /* if */
+.script code .else { color: #f92672; }         /* else */
+.script code .while { color: #f92672; }        /* while */
+.script code .for { color: #f92672; }          /* for */
+.script code .foreach { color: #f92672; }      /* foreach */
+.script code .return { color: #f92672; }       /* return */
+.script code .die { color: #f92672; }          /* die */
+.script code .print { color: #f92672; }        /* print */
+
+.script code .string { color: #e6db74; }       /* Строки */
+.script code .comment { color: #75715e; }      /* Комментарии */
+.script code .number { color: #ae81ff; }       /* Числа */
+.script code .variable { color: #a6e22e; }     /* Переменные */
+.script code .array { color: #a6e22e; }        /* Массивы */
+.script code .hash { color: #a6e22e; }         /* Хеши */
+.script code .function { color: #66d9ef; }     /* Функции */
+.script code .operator { color: #f92672; }     /* Операторы */
+.script code .regex { color: #e6db74; }        /* Регулярные выражения */
+
+/* Стили для заголовков разделов */
+h3 {
+    color: #ff9a01;
+    margin-top: 2em;
+    margin-bottom: 1em;
+    padding-bottom: 0.3em;
+    border-bottom: 2px solid #eee;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .script pre {
+        font-size: 0.8em;
+    }
+    
+    .script {
+        padding: 0.8em;
+    }
+} 
